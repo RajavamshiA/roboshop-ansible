@@ -1,0 +1,26 @@
+# Creating ec2 Instance and Route 53 records using Ansinle.
+- name: Create ec2 Instance
+  hosts: all
+  connection: local
+  vars:
+    sg_id: sg-04e2e1dd8559c0ebe
+    ami_id: ami-0220d79f3f480ecf5
+    domain_name: daws88ss.online
+    env: dev 
+    instances:
+    - mongodb
+    - catalogue
+  tasks:
+  - name: Create Instance
+    amazon.aws.ec2_instance:
+      instance_type: "t3.micro"
+      security_group: "{{ sg_id }}"
+      image_id: "{{ ami_id }}"
+      name: "{{ item }}-{{ env }}"
+      tags: 
+        Project: roboshop
+        Component: "{{ item }}"
+        Environment: "{{ env }}"
+        Name: "{{ item }}-{{ env }}"
+    loop: "{{ instances }}"
+    register: ec2_output
