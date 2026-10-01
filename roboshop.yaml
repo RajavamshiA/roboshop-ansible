@@ -5,7 +5,7 @@
   vars:
     sg_id: sg-04e2e1dd8559c0ebe
     ami_id: ami-0220d79f3f480ecf5
-    domain_name: daws88ss.online
+    domain_name: daws82ss.online
     env: dev 
     instances:
     - mongodb
@@ -36,7 +36,7 @@
       zone: "{{ domain_name }}"
       record: "{{ item.item }}-{{ env }}.{{ domain_name }}"
       type: A
-      ttl: 1
+      ttl: 1  
       value: "{{ item.instances[0].private_ip_address }}"
       wait: true
     loop: "{{ ec2_output.results }}"
